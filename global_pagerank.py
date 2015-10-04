@@ -2,7 +2,8 @@
 #
 #   __author__ = 'yanhe'
 #
-#   global_pagerank: compute the GPR values
+#   global_pagerank:
+#       compute the Global PageRank values
 #
 #################################################################
 
@@ -83,7 +84,6 @@ def gpr():
 #################################################################
 
 def main():
-    # print '\n' + "start to reading the docVectors data." + '\n'
     pr_mtx = gpr()
     print pr_mtx[0: 10]
 
