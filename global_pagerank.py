@@ -71,9 +71,23 @@ def gpr():
         if distance.euclidean(pr_mtx, pr_mtx_update) < pow(10, -13):
             break
         pr_mtx = pr_mtx_update
-
+    file_writer(pr_mtx)
     print '\n' + "PageRank calculation finished." + '\n'
     return pr_mtx
+
+
+#################################################################
+#
+#   function file_writer(pr_mtx):
+#       write the result into file
+#
+#################################################################
+
+def file_writer(pr_mtx):
+    # write the global pagerank result into txt file
+    f = open('global_pagerank_result', 'w')
+    for ele in pr_mtx:
+        f.write(str(ele) + '\n')
 
 
 #################################################################

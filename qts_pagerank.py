@@ -21,8 +21,17 @@ import scipy.spatial.distance as distance
 #################################################################
 
 def vector_transfer():
-    topic_txt_path = "hw3-resources/query-topic-distro.txt"
+    topic_txt_path = "hw3-resources/doc-topics.txt"
     topic_txt = open(topic_txt_path, 'r')
+    topic_count = {}
+    # for line in topic_txt:
+    #     ele_tuple = line.split(' ')
+    #     count = topic_count.get(int(ele_tuple[1]), 0)
+    #     count += 1
+    #     topic_count[int(ele_tuple[1])] = count
+    # tstele_vec = []
+    # for idx in range(1, len(topic_count)):
+    #     tstele_vec.append(1.0 / topic_count[idx])
 
 
 #################################################################
