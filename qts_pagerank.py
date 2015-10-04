@@ -81,8 +81,10 @@ def offline_tspr():
     alpha = 0.5
     beta = 0.4
     gamma = 0.1
+    # get the transition matrix
     trans_mtx = matrix_transfer()
     [row, col] = trans_mtx.shape
+    # get the topic-specific teleportation vector
     topic_tele_mtx = vector_transfer()
     topic_num = len(topic_tele_mtx)
     tspr_vec = []
@@ -106,6 +108,17 @@ def offline_tspr():
 
     print '\n' + "Offline TSPR matrix generated." + '\n'
     return tspr_vec
+
+
+#################################################################
+#
+#   function online_tspr():
+#       compute online TSPR vectors with query q
+#
+#################################################################
+def online_tspr():
+    query_topic_path = "hw3-resources/query-topic-distro.txt"
+    query_topic_txt = open(query_topic_path, 'r')
 
 
 #################################################################
