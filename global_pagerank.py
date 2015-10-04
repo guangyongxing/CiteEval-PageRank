@@ -59,7 +59,6 @@ def gpr():
     [row, col] = trans_mtx.shape
     # get the p0 matrix
     p0_mtx = np.divide(np.ones(row), row)
-
     # initialize the pagerank vector pr_mtx
     pr_mtx = np.random.dirichlet(np.ones(row), size=1).ravel()
     # iteration to update the pr_mtx

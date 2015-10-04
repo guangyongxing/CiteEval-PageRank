@@ -16,7 +16,7 @@ import scipy.spatial.distance as distance
 #################################################################
 #
 #   function matrix_transfer():
-#       get the transition matrix M
+#       get the transition matrix M.T
 #
 #################################################################
 
@@ -72,13 +72,51 @@ def vector_transfer():
 
 #################################################################
 #
+#   function offline_tspr():
+#       compute offline TSPR vectors
+#
+#################################################################
+def offline_tspr():
+    # set the value of alpha, beta, gamma
+    alpha = 0.5
+    beta = 0.4
+    gamma = 0.1
+    trans_mtx = matrix_transfer()
+    [row, col] = trans_mtx.shape
+    topic_tele_mtx = vector_transfer()
+    topic_num = len(topic_tele_mtx)
+    tspr_vec = []
+    for idx in range(0, topic_num):
+        cur_topic_vec = topic_tele_mtx[idx]
+        # get the p0 matrix
+        p0_mtx = np.divide(np.ones(row), row)
+        # initialize the pagerank vector pr_mtx
+        cur_pr_mtx = np.random.dirichlet(np.ones(row), size=1).ravel()
+
+        # iteration to update the cur_pr_mtx
+        num_of_round = 1
+        while num_of_round < 500:
+            # print num_of_round
+            num_of_round += 1
+            cur_pr_mtx_update = alpha * (trans_mtx * cur_pr_mtx) + beta * cur_topic_vec + gamma * p0_mtx
+            if distance.euclidean(cur_pr_mtx, cur_pr_mtx_update) < pow(10, -13):
+                break
+            cur_pr_mtx = cur_pr_mtx_update
+        tspr_vec.append(cur_pr_mtx)
+
+    print '\n' + "Offline TSPR matrix generated." + '\n'
+    return tspr_vec
+
+
+#################################################################
+#
 #   function main():
 #       main function of the program
 #
 #################################################################
 
 def main():
-    vector_transfer()
+    offline_tspr()
 
 
 # use this line to execute the main function
