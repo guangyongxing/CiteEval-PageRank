@@ -1,6 +1,6 @@
 #################################################################
 #
-#   __author__ = 'Yan'
+#   __author__ = 'yanhe'
 #
 #   global_pagerank: compute the GPR values
 #
@@ -18,18 +18,24 @@ import scipy.spatial.distance as distance
 #       transition matrix transfer
 #
 #################################################################
+
 def matrix_transfer():
     trans_txt_path = "hw3-resources/transition.txt"
     trans_txt = open(trans_txt_path, 'r')
     row_list = []
     col_list = []
     data_list = []
+    outer_count = {}
     for line in trans_txt:
         ele_tuple = line.split(' ')
-        row_list.append(int(ele_tuple[0]))
-        col_list.append(int(ele_tuple[1]))
-        data_list.append(int(ele_tuple[2]))
+        row_list.append(int(ele_tuple[0]) - 1)
+        col_list.append(int(ele_tuple[1]) - 1)
+        count = outer_count.get(int(ele_tuple[0]) - 1, 0)
+        count += 1
+        outer_count[int(ele_tuple[0]) - 1] = count
     size = max(max(row_list), max(col_list)) + 1
+    for idx in row_list:
+        data_list.append(1.0 / outer_count[idx])
     trans_coo_mtx = sparse.coo_matrix((data_list, (row_list, col_list)), shape=(size, size), dtype=np.float)
     print '\n' + "Transition matrix transfer finished." + '\n'
     # trans_mtx has been transposed
@@ -42,30 +48,32 @@ def matrix_transfer():
 #   function gpr(): calculate the global PageRank
 #
 #################################################################
+
 def gpr():
+    # set the value of alpha
+    alpha = 0.5
     # get the transition matrix
     trans_mtx = matrix_transfer()
     [row, col] = trans_mtx.shape
+    # trans_mtx_alpha = (1 - alpha) * trans_mtx
     # get the p0 matrix
-    p0_mtx = np.transpose(np.empty((1, col)))
-    p0_val = 1.0 / row
-    p0_mtx.fill(p0_val)
-    # set the value of alpha
-    alpha = 0.1
+    p0_mtx = np.divide(np.ones(row), row)
+
     # initialize the pagerank vector pr_mtx
-    pr_mtx = np.transpose(np.random.dirichlet(np.ones(row), size=1))
-    # iteration 10 rounds to update the pr_mtx
-    num_of_round = 0
-    while num_of_round < 100:
-        print num_of_round
+    pr_mtx = np.random.dirichlet(np.ones(row), size=1).ravel()
+    # iteration to update the pr_mtx
+    num_of_round = 1
+    while num_of_round < 500:
+        # print num_of_round
         num_of_round += 1
-        pr_mtx_update = np.multiply(1 - alpha, trans_mtx.dot(pr_mtx)) + np.multiply(alpha, p0_mtx)
-        print distance.euclidean(pr_mtx, pr_mtx_update)
+        pr_mtx_update = (1 - alpha) * trans_mtx * pr_mtx + alpha * p0_mtx
+        # print distance.euclidean(pr_mtx, pr_mtx_update)
         if distance.euclidean(pr_mtx, pr_mtx_update) < pow(10, -13):
             break
         pr_mtx = pr_mtx_update
 
     print '\n' + "PageRank calculation finished." + '\n'
+    return pr_mtx
 
 
 #################################################################
@@ -73,9 +81,11 @@ def gpr():
 #   function main(): main function of the program
 #
 #################################################################
+
 def main():
     # print '\n' + "start to reading the docVectors data." + '\n'
-    gpr()
+    pr_mtx = gpr()
+    print pr_mtx[0: 10]
 
 
 # use this line to execute the main function
