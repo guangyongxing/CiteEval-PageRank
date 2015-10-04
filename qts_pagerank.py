@@ -15,15 +15,20 @@ import scipy.spatial.distance as distance
 
 #################################################################
 #
-#   function
+#   function vector_transfer():
+#       construct topic-specific teleportation vector p_t
 #
 #################################################################
 
+def vector_transfer():
+    topic_txt_path = "hw3-resources/query-topic-distro.txt"
+    topic_txt = open(topic_txt_path, 'r')
 
 
 #################################################################
 #
-#   function main(): main function of the program
+#   function main():
+#       main function of the program
 #
 #################################################################
 

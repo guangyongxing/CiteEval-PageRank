@@ -46,7 +46,8 @@ def matrix_transfer():
 
 #################################################################
 #
-#   function gpr(): calculate the global PageRank
+#   function gpr():
+#       calculate the global PageRank
 #
 #################################################################
 
@@ -56,7 +57,6 @@ def gpr():
     # get the transition matrix
     trans_mtx = matrix_transfer()
     [row, col] = trans_mtx.shape
-    # trans_mtx_alpha = (1 - alpha) * trans_mtx
     # get the p0 matrix
     p0_mtx = np.divide(np.ones(row), row)
 
@@ -67,8 +67,7 @@ def gpr():
     while num_of_round < 500:
         # print num_of_round
         num_of_round += 1
-        pr_mtx_update = (1 - alpha) * trans_mtx * pr_mtx + alpha * p0_mtx
-        # print distance.euclidean(pr_mtx, pr_mtx_update)
+        pr_mtx_update = (1 - alpha) * (trans_mtx * pr_mtx) + alpha * p0_mtx
         if distance.euclidean(pr_mtx, pr_mtx_update) < pow(10, -13):
             break
         pr_mtx = pr_mtx_update
@@ -79,7 +78,8 @@ def gpr():
 
 #################################################################
 #
-#   function main(): main function of the program
+#   function main():
+#       main function of the program
 #
 #################################################################
 
