@@ -144,7 +144,8 @@ def online_tspr():
 #################################################################
 
 def main():
-    online_tspr()
+    ptspr_mtx = online_tspr()
+    # print ptspr_mtx[0][0:9]
 
 
 # use this line to execute the main function
