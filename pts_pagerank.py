@@ -2,8 +2,8 @@
 #
 #   __author__ = 'yanhe'
 #
-#   qts_pagerank:
-#       compute the Query-based Topic Sensitive PageRank
+#   pts_pagerank:
+#       compute the Personalized Topic Sensitive PageRank
 #
 #################################################################
 
@@ -113,7 +113,7 @@ def offline_tspr():
 #################################################################
 #
 #   function online_tspr():
-#       compute online TSPR vectors with query-topic-distro
+#       compute online TSPR vectors with user-topic-distro
 #
 #################################################################
 def online_tspr():
@@ -121,19 +121,19 @@ def online_tspr():
     tspr_vec = offline_tspr()
     row = len(tspr_vec)
     col = len(tspr_vec[0])
-    # compute the QTSPR matrix
-    query_topic_path = "hw3-resources/query-topic-distro.txt"
-    query_topic_txt = open(query_topic_path, 'r')
-    qtspr_mtx = []
-    for line in query_topic_txt:
+    # compute the PTSPR matrix
+    user_topic_path = "hw3-resources/user-topic-distro.txt"
+    user_topic_txt = open(user_topic_path, 'r')
+    ptspr_mtx = []
+    for line in user_topic_txt:
         ele_pair = line.split(' ')
         cur_prob = np.empty((row, col))
         for idx in range(2, len(ele_pair)):
             cur_prob[idx - 2] = tspr_vec[idx - 2] * float(ele_pair[idx].split(':')[1])
-        qtspr_mtx.append(cur_prob.sum(axis=0))
+        ptspr_mtx.append(cur_prob.sum(axis=0))
 
     print '\n' + "Online TSPR matrix generated." + '\n'
-    return qtspr_mtx
+    return ptspr_mtx
 
 
 #################################################################
