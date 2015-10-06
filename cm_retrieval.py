@@ -73,9 +73,8 @@ def score_extracter(path):
 #
 #################################################################
 
-def cosine_inter(indri_norm, pr_norm, mu):
-    mu2 = (1 - math.cos(mu * math.pi)) / 2
-    return map(add, np.multiply(indri_norm, 1 - mu2), np.multiply(pr_norm, mu2))
+def cosine_inter(mu_list):
+    return [(1 - math.cos(mu * math.pi)) / 2 for mu in mu_list]
 
 
 #################################################################
@@ -96,6 +95,7 @@ def ws_gpr():
         file_name = indri_names[cur_num][1]
         # doc id in the current indri file
         doc_id = doc_extracter(file_name)
+        doc_num = len(doc_id)
         # normalize intri score for each doc
         indri_score = score_extracter(file_name)
         # indri_score_pos = np.subtract(indri_score, min(indri_score) - 1)
@@ -107,7 +107,10 @@ def ws_gpr():
         gpr_norm = [float(i)/sum(gpr_value) for i in gpr_value]
         # TODO: combine indri and pagerank score with custom method
         # ws_score = map(add, np.multiply(indri_norm, 0.95), np.multiply(gpr_norm, 0.05))
-        ws_score = cosine_inter(indri_norm, gpr_norm, 0.15)
+        # ws_score = cosine_inter(indri_norm, gpr_norm, 0.15)
+        mu_list = np.arange(0.85, 0.95, 0.1 / doc_num)[::-1]
+        mu2_list = cosine_inter(mu_list)
+        ws_score = map(add, np.multiply(indri_norm, mu2_list), np.multiply(gpr_norm, np.subtract(1.0, mu2_list)))
         # sort by descending order
         gpr_score = np.argsort(ws_score)[::-1].tolist()
         doc_id_arr = np.array(doc_id)
@@ -141,6 +144,7 @@ def ws_qtspr():
         file_name = indri_names[cur_num][1]
         # doc id in the current indri file
         doc_id = doc_extracter(file_name)
+        doc_num = len(doc_id)
         # normalize intri score for each doc
         indri_score = score_extracter(file_name)
         indri_score_pos = np.power(math.e, indri_score)
@@ -149,9 +153,10 @@ def ws_qtspr():
         # normalize pagerank value
         qtspr_value = qtspr_mtx[query_count][doc_id]
         qtspr_norm = [float(i)/sum(qtspr_value) for i in qtspr_value]
-        # TODO: combine indri and pagerank score
-        # ws_score = map(add, np.multiply(indri_norm, 0.95), np.multiply(qtspr_norm, 0.05))
-        ws_score = cosine_inter(indri_norm, qtspr_norm, 0.15)
+        # use custom method to combine
+        mu_list = np.arange(0.85, 0.95, 0.1 / doc_num)[::-1]
+        mu2_list = cosine_inter(mu_list)
+        ws_score = map(add, np.multiply(indri_norm, mu2_list), np.multiply(qtspr_norm, np.subtract(1.0, mu2_list)))
         # sort by descending order
         qtspr_score = np.argsort(ws_score)[::-1].tolist()
         doc_id_arr = np.array(doc_id)
@@ -185,6 +190,7 @@ def ws_ptspr():
         file_name = indri_names[cur_num][1]
         # doc id in the current indri file
         doc_id = doc_extracter(file_name)
+        doc_num = len(doc_id)
         # normalize intri score for each doc
         indri_score = score_extracter(file_name)
         indri_score_pos = np.power(math.e, indri_score)
@@ -193,9 +199,10 @@ def ws_ptspr():
         # normalize pagerank value
         ptspr_value = ptspr_mtx[query_count][doc_id]
         ptspr_norm = [float(i)/sum(ptspr_value) for i in ptspr_value]
-        # TODO: combine indri and pagerank score
-        # ws_score = map(add, np.multiply(indri_norm, 0.95), np.multiply(ptspr_norm, 0.05))
-        ws_score = cosine_inter(indri_norm, ptspr_norm, 0.15)
+        # use custom method to combine
+        mu_list = np.arange(0.85, 0.95, 0.1 / doc_num)[::-1]
+        mu2_list = cosine_inter(mu_list)
+        ws_score = map(add, np.multiply(indri_norm, mu2_list), np.multiply(ptspr_norm, np.subtract(1.0, mu2_list)))
         # sort by descending order
         ptspr_score = np.argsort(ws_score)[::-1].tolist()
         doc_id_arr = np.array(doc_id)
@@ -210,8 +217,8 @@ def ws_ptspr():
 # use this line to execute the main function
 if __name__ == "__main__":
     ws_gpr()
-    # ws_qtspr()
-    # ws_ptspr()
+    ws_qtspr()
+    ws_ptspr()
 
 
 # end of the process
