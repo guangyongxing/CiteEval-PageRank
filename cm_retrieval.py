@@ -110,7 +110,8 @@ def cm_gpr():
         # ws_score = cosine_inter(indri_norm, gpr_norm, 0.15)
         mu_list = np.arange(0.85, 0.95, 0.1 / doc_num)[::-1]
         mu2_list = cosine_inter(mu_list)
-        ws_score = map(add, np.multiply(indri_norm, mu2_list), np.multiply(gpr_norm, np.subtract(1.0, mu2_list)))
+        # ws_score = map(add, np.multiply(indri_norm, mu2_list), np.multiply(gpr_norm, np.subtract(1.0, mu2_list)))
+        ws_score = np.subtract(np.multiply(indri_norm, mu2_list), np.multiply(gpr_norm, np.subtract(1.0, mu2_list)))
         # sort by descending order
         gpr_score = np.argsort(ws_score)[::-1].tolist()
         doc_id_arr = np.array(doc_id)
@@ -154,9 +155,11 @@ def cm_qtspr():
         qtspr_value = qtspr_mtx[query_count][doc_id]
         qtspr_norm = [float(i)/sum(qtspr_value) for i in qtspr_value]
         # use custom method to combine
-        mu_list = np.arange(0.85, 0.95, 0.1 / doc_num)[::-1]
+        mu_list = np.arange(0.86, 0.96, 0.1 / doc_num)[::-1]
         mu2_list = cosine_inter(mu_list)
-        ws_score = map(add, np.multiply(indri_norm, mu2_list), np.multiply(qtspr_norm, np.subtract(1.0, mu2_list)))
+        # TODO: change the pagerank score to be penalty
+        # ws_score = map(add, np.multiply(indri_norm, mu2_list), np.multiply(qtspr_norm, np.subtract(1.0, mu2_list)))
+        ws_score = np.subtract(np.multiply(indri_norm, mu2_list), np.multiply(qtspr_norm, np.subtract(1.0, mu2_list)))
         # sort by descending order
         qtspr_score = np.argsort(ws_score)[::-1].tolist()
         doc_id_arr = np.array(doc_id)
@@ -200,9 +203,10 @@ def cm_ptspr():
         ptspr_value = ptspr_mtx[query_count][doc_id]
         ptspr_norm = [float(i)/sum(ptspr_value) for i in ptspr_value]
         # use custom method to combine
-        mu_list = np.arange(0.85, 0.95, 0.1 / doc_num)[::-1]
+        mu_list = np.arange(0.87, 0.97, 0.1 / doc_num)[::-1]
         mu2_list = cosine_inter(mu_list)
-        ws_score = map(add, np.multiply(indri_norm, mu2_list), np.multiply(ptspr_norm, np.subtract(1.0, mu2_list)))
+        # ws_score = map(add, np.multiply(indri_norm, mu2_list), np.multiply(ptspr_norm, np.subtract(1.0, mu2_list)))
+        ws_score = np.subtract(np.multiply(indri_norm, mu2_list), np.multiply(ptspr_norm, np.subtract(1.0, mu2_list)))
         # sort by descending order
         ptspr_score = np.argsort(ws_score)[::-1].tolist()
         doc_id_arr = np.array(doc_id)
@@ -217,7 +221,7 @@ def cm_ptspr():
 # use this line to execute the main function
 if __name__ == "__main__":
     print "Starting the custom method for retrieval." + '\n'
-    # cm_gpr()
+    cm_gpr()
     # cm_qtspr()
     # cm_ptspr()
 
