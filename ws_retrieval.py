@@ -24,7 +24,7 @@ import math
 #
 #################################################################
 def file_scanner():
-    print "Reading Indri files." + '\n'
+    # print "Reading Indri files." + '\n'
     indri_path = "hw3-resources/indri-lists/*.txt"
     indri_files = glob.glob(indri_path)
     indri_file_names = {}
@@ -194,7 +194,8 @@ def ws_ptspr():
 
 # use this line to execute the main function
 if __name__ == "__main__":
-    ws_gpr()
+    print "Starting the weighted sum method for retrieval." + '\n'
+    # ws_gpr()
     # ws_qtspr()
     # ws_ptspr()
 

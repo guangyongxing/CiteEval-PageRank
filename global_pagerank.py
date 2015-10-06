@@ -38,7 +38,7 @@ def matrix_transfer():
     for idx in row_list:
         data_list.append(1.0 / outer_count[idx])
     trans_coo_mtx = sparse.coo_matrix((data_list, (row_list, col_list)), shape=(size, size), dtype=np.float)
-    print "Transition matrix transfer finished." + '\n'
+    # print "Transition matrix transfer finished." + '\n'
     # trans_mtx has been transposed
     trans_mtx = trans_coo_mtx.tocsr().transpose()
     return trans_mtx
@@ -71,7 +71,7 @@ def gpr():
             break
         pr_mtx = pr_mtx_update
     # file_writer(pr_mtx)
-    print "PageRank calculation finished." + '\n'
+    # print "PageRank calculation finished." + '\n'
     return pr_mtx
 
 

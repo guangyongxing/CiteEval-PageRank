@@ -22,7 +22,7 @@ import numpy as np
 #
 #################################################################
 def file_scanner():
-    print "Reading Indri files." + '\n'
+    # print "Reading Indri files." + '\n'
     indri_path = "hw3-resources/indri-lists/*.txt"
     indri_files = glob.glob(indri_path)
     indri_file_names = {}
@@ -146,7 +146,9 @@ def ns_ptspr():
 
 # use this line to execute the main function
 if __name__ == "__main__":
-    ns_gpr()
+    print "Starting the no-search method for retrieval." + '\n'
+    # ns_gpr()
+    # ns_qtspr()
     # ns_ptspr()
 
 

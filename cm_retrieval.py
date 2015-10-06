@@ -24,7 +24,7 @@ import math
 #
 #################################################################
 def file_scanner():
-    print "Reading Indri files." + '\n'
+    # print "Reading Indri files." + '\n'
     indri_path = "hw3-resources/indri-lists/*.txt"
     indri_files = glob.glob(indri_path)
     indri_file_names = {}
@@ -83,7 +83,7 @@ def cosine_inter(mu_list):
 #       compute weighted sum global pagerank ranking
 #
 #################################################################
-def ws_gpr():
+def cm_gpr():
     # get the global pagerank result
     gpr_mtx = global_pagerank.gpr()
     # get the indri file names
@@ -130,7 +130,7 @@ def ws_gpr():
 #
 #################################################################
 
-def ws_qtspr():
+def cm_qtspr():
     # get the query-based pagerank result
     qtspr_mtx = qts_pagerank.online_tspr()
     # get the indri file names
@@ -176,7 +176,7 @@ def ws_qtspr():
 #
 #################################################################
 
-def ws_ptspr():
+def cm_ptspr():
     # get the query-based pagerank result
     ptspr_mtx = pts_pagerank.online_tspr()
     # get the indri file names
@@ -216,9 +216,10 @@ def ws_ptspr():
 
 # use this line to execute the main function
 if __name__ == "__main__":
-    ws_gpr()
-    ws_qtspr()
-    ws_ptspr()
+    print "Starting the custom method for retrieval." + '\n'
+    # cm_gpr()
+    # cm_qtspr()
+    # cm_ptspr()
 
 
 # end of the process
