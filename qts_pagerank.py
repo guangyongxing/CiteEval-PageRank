@@ -79,8 +79,8 @@ def vector_transfer():
 
 def offline_tspr():
     # set the value of alpha, beta, gamma
-    alpha = 0.5
-    beta = 0.4
+    alpha = 0.2
+    beta = 0.7
     gamma = 0.1
     # get the transition matrix
     trans_mtx = matrix_transfer()
@@ -136,17 +136,6 @@ def online_tspr():
 
     print "Online TSPR matrix generated." + '\n'
     return qtspr_mtx
-
-
-#################################################################
-#
-#   function main():
-#       main function of the program
-#
-#################################################################
-
-# def main():
-#     qtspr_mtx = online_tspr()
 
 
 # use this line to execute the main function

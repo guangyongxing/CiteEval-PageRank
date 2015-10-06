@@ -53,7 +53,7 @@ def matrix_transfer():
 
 def gpr():
     # set the value of alpha
-    alpha = 0.5
+    alpha = 0.1
     # get the transition matrix
     trans_mtx = matrix_transfer()
     [row, col] = trans_mtx.shape
@@ -82,23 +82,11 @@ def gpr():
 #
 #################################################################
 
-def file_writer(pr_mtx):
-    # write the global pagerank result into txt file
-    f = open('global_pagerank_result', 'w')
-    for ele in pr_mtx:
-        f.write(str(ele) + '\n')
-
-
-#################################################################
-#
-#   function main():
-#       main function of the program
-#
-#################################################################
-
-# def main():
-#     pr_mtx = gpr()
-#     # print pr_mtx[0: 10]
+# def file_writer(pr_mtx):
+#     # write the global pagerank result into txt file
+#     f = open('global_pagerank_result', 'w')
+#     for ele in pr_mtx:
+#         f.write(str(ele) + '\n')
 
 
 # use this line to execute the main function

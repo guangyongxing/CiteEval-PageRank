@@ -8,3 +8,7 @@
 *.iml
 
 test.py
+
+pts_pagerank.pyc
+
+qts_pagerank.pyc
