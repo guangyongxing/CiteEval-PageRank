@@ -38,7 +38,7 @@ def matrix_transfer():
     for idx in row_list:
         data_list.append(1.0 / outer_count[idx])
     trans_coo_mtx = sparse.coo_matrix((data_list, (row_list, col_list)), shape=(size, size), dtype=np.float)
-    print '\n' + "Transition matrix transfer finished." + '\n'
+    print "Transition matrix transfer finished." + '\n'
     # trans_mtx has been transposed
     trans_mtx = trans_coo_mtx.tocsr().transpose()
     return trans_mtx
@@ -76,6 +76,7 @@ def vector_transfer():
 #       compute offline TSPR vectors
 #
 #################################################################
+
 def offline_tspr():
     # set the value of alpha, beta, gamma
     alpha = 0.5
@@ -106,7 +107,7 @@ def offline_tspr():
             cur_pr_mtx = cur_pr_mtx_update
         tspr_vec.append(cur_pr_mtx)
 
-    print '\n' + "Offline TSPR matrix generated." + '\n'
+    print "Offline TSPR matrix generated." + '\n'
     return tspr_vec
 
 
@@ -116,6 +117,7 @@ def offline_tspr():
 #       compute online TSPR vectors with user-topic-distro
 #
 #################################################################
+
 def online_tspr():
     # get the Offline TSPR vector
     tspr_vec = offline_tspr()
@@ -132,7 +134,7 @@ def online_tspr():
             cur_prob[idx - 2] = tspr_vec[idx - 2] * float(ele_pair[idx].split(':')[1])
         ptspr_mtx.append(cur_prob.sum(axis=0))
 
-    print '\n' + "Online TSPR matrix generated." + '\n'
+    print "Online TSPR matrix generated." + '\n'
     return ptspr_mtx
 
 
@@ -143,14 +145,15 @@ def online_tspr():
 #
 #################################################################
 
-def main():
-    ptspr_mtx = online_tspr()
-    # print ptspr_mtx[0][0:9]
+# def main():
+#     ptspr_mtx = online_tspr()
+#     print ptspr_mtx[0][0:9]
 
 
 # use this line to execute the main function
 if __name__ == "__main__":
-    main()
+    ptspr_mtx = online_tspr()
+    print ptspr_mtx[0][0:9]
 
 
 # end of the pagerank computation process

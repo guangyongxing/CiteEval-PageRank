@@ -38,7 +38,7 @@ def matrix_transfer():
     for idx in row_list:
         data_list.append(1.0 / outer_count[idx])
     trans_coo_mtx = sparse.coo_matrix((data_list, (row_list, col_list)), shape=(size, size), dtype=np.float)
-    print '\n' + "Transition matrix transfer finished." + '\n'
+    print "Transition matrix transfer finished." + '\n'
     # trans_mtx has been transposed
     trans_mtx = trans_coo_mtx.tocsr().transpose()
     return trans_mtx
@@ -70,8 +70,8 @@ def gpr():
         if distance.euclidean(pr_mtx, pr_mtx_update) < pow(10, -13):
             break
         pr_mtx = pr_mtx_update
-    file_writer(pr_mtx)
-    print '\n' + "PageRank calculation finished." + '\n'
+    # file_writer(pr_mtx)
+    print "PageRank calculation finished." + '\n'
     return pr_mtx
 
 
@@ -96,14 +96,14 @@ def file_writer(pr_mtx):
 #
 #################################################################
 
-def main():
-    pr_mtx = gpr()
-    print pr_mtx[0: 10]
+# def main():
+#     pr_mtx = gpr()
+#     # print pr_mtx[0: 10]
 
 
 # use this line to execute the main function
 if __name__ == "__main__":
-    main()
+    pr_mtx = gpr()
 
 
 # end of the pagerank computation process
