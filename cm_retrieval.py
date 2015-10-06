@@ -2,8 +2,8 @@
 #
 #   __author__ = 'yanhe'
 #
-#   ws_retrieval:
-#       re-rank the document with weighted sum retrieval method
+#   cm_retrieval:
+#       re-rank the document with custom retrieval method
 #
 #################################################################
 
@@ -68,6 +68,18 @@ def score_extracter(path):
 
 #################################################################
 #
+#   function cosine_inter():
+#       custom method
+#
+#################################################################
+
+def cosine_inter(indri_norm, pr_norm, mu):
+    mu2 = (1 - math.cos(mu * math.pi)) / 2
+    return map(add, np.multiply(indri_norm, 1 - mu2), np.multiply(pr_norm, mu2))
+
+
+#################################################################
+#
 #   function ws_gpr():
 #       compute weighted sum global pagerank ranking
 #
@@ -78,7 +90,7 @@ def ws_gpr():
     # get the indri file names
     indri_names = file_scanner()
     # write the ranking result into txt file
-    f = open('rank/ws_gpr_rank', 'w')
+    f = open('rank/cm_gpr_rank', 'w')
     for cur_num in sorted(indri_names):
         query_id = indri_names[cur_num][0]
         file_name = indri_names[cur_num][1]
@@ -93,8 +105,9 @@ def ws_gpr():
         # normalize pagerank value
         gpr_value = gpr_mtx[doc_id]
         gpr_norm = [float(i)/sum(gpr_value) for i in gpr_value]
-        # combine indri and pagerank score
-        ws_score = map(add, np.multiply(indri_norm, 0.95), np.multiply(gpr_norm, 0.05))
+        # TODO: combine indri and pagerank score with custom method
+        # ws_score = map(add, np.multiply(indri_norm, 0.95), np.multiply(gpr_norm, 0.05))
+        ws_score = cosine_inter(indri_norm, gpr_norm, 0.15)
         # sort by descending order
         gpr_score = np.argsort(ws_score)[::-1].tolist()
         doc_id_arr = np.array(doc_id)
@@ -120,7 +133,7 @@ def ws_qtspr():
     # get the indri file names
     indri_names = file_scanner()
     # write the ranking result into txt file
-    f = open('rank/ws_qtspr_rank', 'w')
+    f = open('rank/cm_qtspr_rank', 'w')
     query_count = -1
     for cur_num in sorted(indri_names):
         query_count += 1
@@ -136,8 +149,9 @@ def ws_qtspr():
         # normalize pagerank value
         qtspr_value = qtspr_mtx[query_count][doc_id]
         qtspr_norm = [float(i)/sum(qtspr_value) for i in qtspr_value]
-        # combine indri and pagerank score
-        ws_score = map(add, np.multiply(indri_norm, 0.95), np.multiply(qtspr_norm, 0.05))
+        # TODO: combine indri and pagerank score
+        # ws_score = map(add, np.multiply(indri_norm, 0.95), np.multiply(qtspr_norm, 0.05))
+        ws_score = cosine_inter(indri_norm, qtspr_norm, 0.15)
         # sort by descending order
         qtspr_score = np.argsort(ws_score)[::-1].tolist()
         doc_id_arr = np.array(doc_id)
@@ -163,7 +177,7 @@ def ws_ptspr():
     # get the indri file names
     indri_names = file_scanner()
     # write the ranking result into txt file
-    f = open('rank/ws_ptspr_rank', 'w')
+    f = open('rank/cm_ptspr_rank', 'w')
     query_count = -1
     for cur_num in sorted(indri_names):
         query_count += 1
@@ -179,8 +193,9 @@ def ws_ptspr():
         # normalize pagerank value
         ptspr_value = ptspr_mtx[query_count][doc_id]
         ptspr_norm = [float(i)/sum(ptspr_value) for i in ptspr_value]
-        # combine indri and pagerank score
-        ws_score = map(add, np.multiply(indri_norm, 0.95), np.multiply(ptspr_norm, 0.05))
+        # TODO: combine indri and pagerank score
+        # ws_score = map(add, np.multiply(indri_norm, 0.95), np.multiply(ptspr_norm, 0.05))
+        ws_score = cosine_inter(indri_norm, ptspr_norm, 0.15)
         # sort by descending order
         ptspr_score = np.argsort(ws_score)[::-1].tolist()
         doc_id_arr = np.array(doc_id)

@@ -61,7 +61,7 @@ def ns_gpr():
     # get the indri file names
     indri_names = file_scanner()
     # write the ranking result into txt file
-    f = open('ns_gpr_rank', 'w')
+    f = open('rank/ns_gpr_rank', 'w')
     for cur_num in sorted(indri_names):
         query_id = indri_names[cur_num][0]
         file_name = indri_names[cur_num][1]
@@ -92,7 +92,7 @@ def ns_qtspr():
     # get the indri file names
     indri_names = file_scanner()
     # write the ranking result into txt file
-    f = open('ns_qtspr_rank', 'w')
+    f = open('rank/ns_qtspr_rank', 'w')
     query_count = -1
     for cur_num in sorted(indri_names):
         query_count += 1
@@ -124,7 +124,7 @@ def ns_ptspr():
     # get the indri file names
     indri_names = file_scanner()
     # write the ranking result into txt file
-    f = open('ns_ptspr_rank', 'w')
+    f = open('rank/ns_ptspr_rank', 'w')
     query_count = -1
     for cur_num in sorted(indri_names):
         query_count += 1
