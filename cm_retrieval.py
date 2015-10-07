@@ -105,13 +105,12 @@ def cm_gpr():
         # normalize pagerank value
         gpr_value = gpr_mtx[doc_id]
         gpr_norm = [float(i)/sum(gpr_value) for i in gpr_value]
-        # TODO: combine indri and pagerank score with custom method
-        # ws_score = map(add, np.multiply(indri_norm, 0.95), np.multiply(gpr_norm, 0.05))
-        # ws_score = cosine_inter(indri_norm, gpr_norm, 0.15)
         mu_list = np.arange(0.85, 0.95, 0.1 / doc_num)[::-1]
+        decay_list = np.arange(0.65, 1.0, 0.35 / doc_num)
         mu2_list = cosine_inter(mu_list)
+        mu3_list = np.multiply(np.subtract(1.0, mu2_list), decay_list)
         # ws_score = map(add, np.multiply(indri_norm, mu2_list), np.multiply(gpr_norm, np.subtract(1.0, mu2_list)))
-        ws_score = np.subtract(np.multiply(indri_norm, mu2_list), np.multiply(gpr_norm, np.subtract(1.0, mu2_list)))
+        ws_score = np.subtract(np.multiply(indri_norm, mu2_list), np.multiply(gpr_norm, mu3_list))
         # sort by descending order
         gpr_score = np.argsort(ws_score)[::-1].tolist()
         doc_id_arr = np.array(doc_id)
@@ -121,7 +120,7 @@ def cm_gpr():
             rank_num += 1
             f.write("{} Q0 {} {} {} run-1\n".format(query_id, idx + 1, rank_num, ws_score[doc_id.index(idx)]))
     f.close()
-    print "Weighted Sum GPR ranking finished." + '\n'
+    print "Custom method GPR ranking finished." + '\n'
 
 
 #################################################################
@@ -156,10 +155,12 @@ def cm_qtspr():
         qtspr_norm = [float(i)/sum(qtspr_value) for i in qtspr_value]
         # use custom method to combine
         mu_list = np.arange(0.86, 0.96, 0.1 / doc_num)[::-1]
+        decay_list = np.arange(0.65, 1.0, 0.35 / doc_num)
         mu2_list = cosine_inter(mu_list)
+        mu3_list = np.multiply(np.subtract(1.0, mu2_list), decay_list)
         # TODO: change the pagerank score to be penalty
         # ws_score = map(add, np.multiply(indri_norm, mu2_list), np.multiply(qtspr_norm, np.subtract(1.0, mu2_list)))
-        ws_score = np.subtract(np.multiply(indri_norm, mu2_list), np.multiply(qtspr_norm, np.subtract(1.0, mu2_list)))
+        ws_score = np.subtract(np.multiply(indri_norm, mu2_list), np.multiply(qtspr_norm, mu3_list))
         # sort by descending order
         qtspr_score = np.argsort(ws_score)[::-1].tolist()
         doc_id_arr = np.array(doc_id)
@@ -169,7 +170,7 @@ def cm_qtspr():
             rank_num += 1
             f.write("{} Q0 {} {} {} run-1\n".format(query_id, idx + 1, rank_num, ws_score[doc_id.index(idx)]))
     f.close()
-    print "Weighted Sum Query-based TSPR ranking finished." + '\n'
+    print "Custom method query-based TSPR ranking finished." + '\n'
 
 
 #################################################################
@@ -203,10 +204,12 @@ def cm_ptspr():
         ptspr_value = ptspr_mtx[query_count][doc_id]
         ptspr_norm = [float(i)/sum(ptspr_value) for i in ptspr_value]
         # use custom method to combine
-        mu_list = np.arange(0.87, 0.97, 0.1 / doc_num)[::-1]
+        mu_list = np.arange(0.85, 0.95, 0.1 / doc_num)[::-1]
+        decay_list = np.arange(0.45, 1.0, 0.55 / doc_num)
         mu2_list = cosine_inter(mu_list)
+        mu3_list = np.multiply(np.subtract(1.0, mu2_list), decay_list)
         # ws_score = map(add, np.multiply(indri_norm, mu2_list), np.multiply(ptspr_norm, np.subtract(1.0, mu2_list)))
-        ws_score = np.subtract(np.multiply(indri_norm, mu2_list), np.multiply(ptspr_norm, np.subtract(1.0, mu2_list)))
+        ws_score = np.subtract(np.multiply(indri_norm, mu2_list), np.multiply(ptspr_norm, mu3_list))
         # sort by descending order
         ptspr_score = np.argsort(ws_score)[::-1].tolist()
         doc_id_arr = np.array(doc_id)
@@ -216,7 +219,7 @@ def cm_ptspr():
             rank_num += 1
             f.write("{} Q0 {} {} {} run-1\n".format(query_id, idx + 1, rank_num, ws_score[doc_id.index(idx)]))
     f.close()
-    print "Weighted Sum Personalized TSPR ranking finished." + '\n'
+    print "Custom method personalized TSPR ranking finished." + '\n'
 
 # use this line to execute the main function
 if __name__ == "__main__":
