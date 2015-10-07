@@ -135,13 +135,28 @@ def online_tspr():
         ptspr_mtx.append(cur_prob.sum(axis=0))
 
     # print "Online TSPR matrix generated." + '\n'
+    file_writer(ptspr_mtx[1])
     return ptspr_mtx
 
+
+#################################################################
+#
+#   function file_writer(pr_mtx):
+#       write the result into file
+#
+#################################################################
+
+def file_writer(pr_mtx):
+    # write the global pagerank result into txt file
+    f = open('rank/PTSPR-U2Q2-10.txt', 'w')
+    doc_id = 0
+    for ele in pr_mtx:
+        doc_id += 1
+        f.write(str(doc_id) + " " + str(ele) + '\n')
 
 # use this line to execute the main function
 if __name__ == "__main__":
     ptspr_mtx = online_tspr()
-    print ptspr_mtx[0][0:9]
 
 
 # end of the pagerank computation process

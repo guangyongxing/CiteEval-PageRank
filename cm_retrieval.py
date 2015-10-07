@@ -89,7 +89,7 @@ def cm_gpr():
     # get the indri file names
     indri_names = file_scanner()
     # write the ranking result into txt file
-    f = open('rank/cm_gpr_rank', 'w')
+    f = open('rank/cm_gpr_rank.txt', 'w')
     for cur_num in sorted(indri_names):
         query_id = indri_names[cur_num][0]
         file_name = indri_names[cur_num][1]
@@ -136,7 +136,7 @@ def cm_qtspr():
     # get the indri file names
     indri_names = file_scanner()
     # write the ranking result into txt file
-    f = open('rank/cm_qtspr_rank', 'w')
+    f = open('rank/cm_qtspr_rank.txt', 'w')
     query_count = -1
     for cur_num in sorted(indri_names):
         query_count += 1
@@ -186,7 +186,7 @@ def cm_ptspr():
     # get the indri file names
     indri_names = file_scanner()
     # write the ranking result into txt file
-    f = open('rank/cm_ptspr_rank', 'w')
+    f = open('rank/cm_ptspr_rank.txt', 'w')
     query_count = -1
     for cur_num in sorted(indri_names):
         query_count += 1
